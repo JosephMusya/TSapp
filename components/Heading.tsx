@@ -34,7 +34,7 @@ const headStyle = StyleSheet.create({
     backgroundColor: "dodgerblue",
   },
   image: {
-    width: 50,
+    width: 43.5,
     aspectRatio: 1,
     objectFit: "cover",
     borderRadius: 50,
