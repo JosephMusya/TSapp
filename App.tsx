@@ -23,6 +23,7 @@ export default function App() {
   }
 
   const [posts, setPosts] = useState<Post[]>([]);
+  const [cards, setCards] = useState<CardParams[] | null>([]);
 
   const separator = ({ height }: Separator) => (
     <View style={{ height: height, width: height }} />
@@ -33,6 +34,7 @@ export default function App() {
     fetchPosts(url).then((posts: Post[]) => {
       setPosts(posts);
     });
+    setCards(users);
   }, []);
 
   return (
@@ -40,12 +42,12 @@ export default function App() {
       <StatusBar backgroundColor="dodgerblue" />
       <Heading setPosts={setPosts} />
       <ScrollView style={styles.container}>
-        <InputCard />
+        <InputCard setCards={setCards} />
         <View>
           <Text style={styles.cardTitle}>Added Cards</Text>
         </View>
         <FlatList
-          data={users}
+          data={cards}
           renderItem={({ item }: { item: CardParams }) => {
             return (
               <Card
