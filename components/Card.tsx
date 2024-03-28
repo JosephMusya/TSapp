@@ -1,7 +1,8 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
 export interface CardParams {
-  color?: "blue" | "dodgerblue" | "orange" | "plum" | any;
+  color?: "darkblue" | "dodgerblue" | "orange" | "plum" | any;
+  textColor?: "white" | "black";
   holdersName: string;
   accountNumber: number;
   expiry: string;
@@ -14,8 +15,37 @@ export interface CardParams {
     | "NCBA Bank";
 }
 
+const textColor: { [key in CardParams["bank"]]: CardParams["textColor"] } = {
+  "Family Bank": "white",
+  "Coperative Bank": "black",
+  "Equity Bank": "white",
+  "KCB Bank": "black",
+  "NCBA Bank": "black",
+};
+
+function getTextColor(
+  bank: Partial<CardParams["bank"]>
+): Partial<CardParams["textColor"]> {
+  return textColor[bank];
+}
+
+// Define a mapping of banks to colors
+const bankColors: { [key in CardParams["bank"]]: CardParams["color"] } = {
+  "Family Bank": "darkblue",
+  "Equity Bank": "dodgerblue",
+  "KCB Bank": "orange",
+  "Coperative Bank": "plum",
+  "NCBA Bank": "plum", // Adjust this according to your color mapping
+};
+
+// Function to get the color based on the bank name
+function getBankColor(
+  bankName: Partial<CardParams["bank"]>
+): CardParams["color"] | undefined {
+  return bankColors[bankName];
+}
+
 const Card = ({
-  color = "orange",
   holdersName,
   accountNumber,
   expiry = "11/25",
@@ -23,23 +53,34 @@ const Card = ({
   bank,
 }: CardParams) => {
   return (
-    <Pressable style={[styles.card, { backgroundColor: color }]}>
+    <Pressable style={[styles.card, { backgroundColor: getBankColor(bank) }]}>
       <View style={styles.cardTitle}>
-        <Text>Classic</Text>
+        <Text style={{ color: getTextColor(bank) }}>Classic</Text>
         <View>
-          <Text style={styles.largeFont}>{bank}</Text>
-          <Text style={styles.xsmall}>With you for life</Text>
+          <Text style={[styles.largeFont, { color: getTextColor(bank) }]}>
+            {bank}
+          </Text>
+          <Text style={[styles.xsmall, { color: getTextColor(bank) }]}>
+            With you for life
+          </Text>
         </View>
       </View>
       <View style={styles.abs}>
         <View>
-          <Text style={[styles.xsmall, { fontStyle: "normal" }]}>
+          <Text
+            style={[
+              styles.xsmall,
+              { fontStyle: "normal", color: getTextColor(bank) },
+            ]}
+          >
             VALID THRU <Text style={{ fontSize: 14 }}>{expiry}</Text>
           </Text>
-          <Text>{holdersName}</Text>
-          <Text>{accountNumber}</Text>
+          <Text style={{ color: getTextColor(bank) }}>{holdersName}</Text>
+          <Text style={{ color: getTextColor(bank) }}>{accountNumber}</Text>
         </View>
-        <Text style={styles.visa}>{issuer}</Text>
+        <Text style={[styles.visa, { color: getTextColor(bank) }]}>
+          {issuer}
+        </Text>
       </View>
     </Pressable>
   );

@@ -10,7 +10,11 @@ import {
 import { Formik } from "formik";
 import { CardParams } from "./Card";
 import { Picker } from "@react-native-picker/picker";
-const InputCard = () => {
+const InputCard = ({
+  setCards,
+}: {
+  setCards: React.Dispatch<React.SetStateAction<CardParams[] | null>>;
+}) => {
   const [isPrimary, setIsPrimary] = useState<boolean>(false);
 
   const toggleState = (val: boolean) => {
@@ -19,7 +23,9 @@ const InputCard = () => {
   };
 
   const submitCard = (cardValues: CardParams) => {
-    console.log(cardValues);
+    setCards((prev) => {
+      return [cardValues, ...prev!];
+    });
   };
 
   // interface FormErrors {
@@ -33,9 +39,9 @@ const InputCard = () => {
       initialValues={
         {
           holdersName: "",
-          bank: "",
+          bank: "Family Bank",
           accountNumber: "",
-          issuer: "",
+          issuer: "VISA",
         } as unknown as CardParams
       }
       onSubmit={(values, { resetForm }) => {
@@ -69,7 +75,7 @@ const InputCard = () => {
             onChangeText={props.handleChange("accountNumber")}
           />
           {props.errors.holdersName && (
-            <Text style={{ color: "red" }}>{props.errors.accountNumber}</Text>
+            <Text style={styles.error}>{props.errors.holdersName}</Text>
           )}
 
           <Picker
@@ -134,5 +140,9 @@ export const styles = StyleSheet.create({
   multiline: {
     minHeight: 100,
     maxHeight: 120,
+  },
+
+  error: {
+    color: "red",
   },
 });
