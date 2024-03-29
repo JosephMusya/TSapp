@@ -39,7 +39,12 @@ function StackNavigator() {
     <Stack.Navigator
       initialRouteName="Cards Section"
       screenOptions={{
-        headerShown: false,
+        headerShown: true,
+        headerStyle: {
+          backgroundColor: "dodgerblue",
+        },
+        headerTintColor: "#fff",
+        headerRight: () => <Heading />,
       }}
     >
       <Stack.Screen name="Cards Section" component={HomeScreen} />
@@ -61,10 +66,10 @@ export default function App() {
     <NavigationContainer>
       <Tab.Navigator
         screenOptions={{
+          headerShown: false,
           headerTintColor: "#fff",
           // tabbaricon
           tabBarShowLabel: true,
-          tabBarActiveTintColor: "dodgerblue",
           tabBarInactiveTintColor: "gray",
           headerStyle: {
             backgroundColor: "dodgerblue",
@@ -79,7 +84,6 @@ export default function App() {
             tabBarIcon: ({ color }) => (
               <AntDesign name="creditcard" size={24} color={color} />
             ),
-            headerRight: () => <Heading />,
           }}
         />
         <Tab.Screen
@@ -89,6 +93,7 @@ export default function App() {
             tabBarIcon: ({ color }) => (
               <Ionicons name="person" size={24} color={color} />
             ),
+            headerShown: true,
           }}
         />
         <Tab.Screen
@@ -98,6 +103,7 @@ export default function App() {
             tabBarIcon: ({ color }) => (
               <SimpleLineIcons name="settings" size={24} color={color} />
             ),
+            headerShown: true,
           }}
         />
         <Tab.Screen
@@ -108,6 +114,7 @@ export default function App() {
               <Octicons name="bell" size={24} color={color} />
             ),
             tabBarBadge: 3,
+            headerShown: true,
           }}
         />
       </Tab.Navigator>
